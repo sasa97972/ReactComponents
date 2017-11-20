@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PureComponent} from 'react';
 
 import css from "./app.css"
 
@@ -73,7 +73,7 @@ class Accordion extends Component
     }
 }
 
-class Section extends Component
+class Section extends PureComponent
 {
     constructor(props) {
         super(props);
@@ -123,8 +123,7 @@ class Section extends Component
     }
 }
 
-const Hidden = props => {
-    const {text, height, hiddenRef} = props;
+const Hidden = ({text, height, hiddenRef}) => {
     return(
         <div
             style={{height: height}}
