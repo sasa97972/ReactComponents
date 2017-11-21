@@ -78,18 +78,12 @@ class Section extends PureComponent
     constructor(props) {
         super(props);
         this.state = {
-            height: null
+            height: null,
         };
     }
 
     detectHeight() {
-        const element = this.hidden;
-        element.style.cssText = "position: absolute;" +
-            "visibility: hidden;" +
-            "height: auto;";
-        const height = element.offsetHeight;
-        element.removeAttribute("style");
-        this.setState({height: height+"px"});
+        this.setState({height: this.content.offsetHeight+"px"});
     }
 
     componentDidMount() {
@@ -113,7 +107,7 @@ class Section extends PureComponent
                     </h3>
                     <Hidden
                         height = {isOpened ? this.state.height : '0px'}
-                        hiddenRef={el => this.hidden = el}
+                        contentRef={el => this.content = el}
                         text = {text}
                     />
                 </div>
@@ -123,13 +117,14 @@ class Section extends PureComponent
     }
 }
 
-const Hidden = ({text, height, hiddenRef}) => {
+const Hidden = ({text, height, contentRef}) => {
     return(
         <div
             style={{height: height}}
-            ref={hiddenRef}
             className="accordion__hidden">
-            <p className="accordion__text">{text}</p>
+            <div className="accordion__content" ref={contentRef}>
+                <p className="accordion__text">{text}</p>
+            </div>
         </div>
     );
 };
