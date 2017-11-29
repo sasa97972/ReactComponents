@@ -83,12 +83,17 @@ class Section extends PureComponent
     }
 
     detectHeight() {
+        this.hidden.style.transition = "none";
         this.setState({height: this.content.offsetHeight+"px"});
     }
 
     componentDidMount() {
         this.detectHeight();
         window.addEventListener("resize", this.detectHeight.bind(this), false);
+    }
+
+    componentDidUpdate() {
+        this.hidden.style.transition = "height .5s"
     }
 
     componentWillUnmount() {
@@ -108,6 +113,7 @@ class Section extends PureComponent
                     <Hidden
                         height = {isOpened ? this.state.height : '0px'}
                         contentRef={el => this.content = el}
+                        hiddenRef={el => this.hidden = el}
                         text = {text}
                     />
                 </div>
@@ -117,9 +123,10 @@ class Section extends PureComponent
     }
 }
 
-const Hidden = ({text, height, contentRef}) => {
+const Hidden = ({text, height, contentRef, hiddenRef}) => {
     return(
         <div
+            ref={hiddenRef}
             style={{height: height}}
             className="accordion__hidden">
             <div className="accordion__content" ref={contentRef}>
